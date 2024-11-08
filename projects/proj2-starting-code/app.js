@@ -10,7 +10,7 @@ import * as TORUS from '../../libs/objects/torus.js';
 
 const DIST = 10;
 
-let all_views = false;
+let all_views = true;
 
 let big_view, front_view, left_view, top_view, axo_view;
 
@@ -22,19 +22,19 @@ let zoom = 10;
 let aspect = 1.0;
 
 // dimentions const
-const truck_widht = 11;
-const truck_lenght = 4;
-const truck_height = 5;
+const TRUCK_WIDHT = 11;
+const TRUCK_LENGHT = 4;
+const TRUCK_HEIGHT = 5;
 
 //action var
-const action_speed = 1;
+const ACTION_SPEED = 1;
 let ladder_vert_angle = -5;
 let ladder_hor_angle = 0;
 let car_pos = 0;
-let ladder_ext_pos = 0; 
+let ladder_ext_pos = 1; 
 
 
-front_view = lookAt(vec3(0, 1.3, DIST), vec3(0, 1.3, 0), vec3(0, 1, 0));
+front_view = lookAt(vec3(0, 0, DIST), vec3(0, 0, 0), vec3(0, 1, 0));
 top_view = lookAt(vec3(0, DIST, 0), vec3(0, 0, 0), vec3(0, 0, -1));
 left_view = lookAt(vec3(-DIST, 0, 0), vec3(0, 0, 0), vec3(0, 1, 0));
 axo_view = lookAt(vec3(-DIST, DIST, DIST), vec3(0, 0, 0), vec3(0, 1, 0));
@@ -364,10 +364,10 @@ function drawCabin() {
 }
 
 function drawCargo() {
-    pushMatrix(); // Cargo set OK
+    pushMatrix(); // Cargo set 
     multTranslation([2.25, 2.5, 0]);
 
-    pushMatrix(); // cargo block OK
+    pushMatrix(); // cargo block 
     multScale([6.5, 3.5, 5]);
     updateModelView(gl, program, modelView());
     paint([188/255, 60/255, 70/255, 1]);
@@ -376,11 +376,11 @@ function drawCargo() {
     CUBE.draw(gl, program, gl.LINES);
     popMatrix(); // pop cargo block
 
-    pushMatrix(); // ladder rotator OK
+    pushMatrix(); // rotator 
     multTranslation([1.5, 2, 0]);
     multRotationY(ladder_hor_angle);
 
-    pushMatrix(); // rotator axle OK
+    pushMatrix(); // rotator axle 
     multScale([2.5, 0.5, 2.5]);
     updateModelView(gl, program, modelView());
     paint([193/255, 81/255, 25/255, 1]);
@@ -389,13 +389,13 @@ function drawCargo() {
     CYLINDER.draw(gl, program, gl.LINES);
     popMatrix(); // pop rotator axle
     
-    pushMatrix(); // ladder set OK
+    pushMatrix(); // ladder set 
     multTranslation([0, 0.75, 0]);
 
-    pushMatrix(); // ladder base OK
-    multScale([1.5, 1,1.5])
+    pushMatrix(); // ladder base 
+    multScale([2, 1,1.5])
     updateModelView(gl, program, modelView());
-    paint([204/255, 204/255, 204/255, 1]);
+    paint([225/255, 225/255, 225/255, 1]); 
     CUBE.draw(gl, program, mode);
     paint([0.62, 0.62, 0.62, 1]);
     CUBE.draw(gl, program, gl.LINES);
@@ -405,45 +405,46 @@ function drawCargo() {
     multRotationZ(ladder_vert_angle); // raise ladder
 
     for (let x = 0; x <= 1; x ++) { // 2 ladders
-        for(let i = -1; i <= 1; i +=2) { // both sides of each ladder
+        for (let i = -1; i <= 1; i +=2) { // both sides of each ladder
             pushMatrix(); // lateral
-            x == 0 ? multTranslation([-4 - x/2, x/3, i*0.9]) : multTranslation([-4 - x/2 - ladder_ext_pos, x/3, i*0.9])
-            multScale([9, 0.3, 0.3]);
-            updateModelView(gl, program, modelView());
-            paint([204/255, 204/255, 204/255, 1]);
+            x == 0 ? multTranslation([-4.5, 0, i*0.9]) : multTranslation([-4.5 - ladder_ext_pos, 0.3, i*0.9])
+            multScale([10, 0.3, 0.3]);  
+            updateModelView(gl, program, modelView());   
+            paint([225/255, 225/255, 225/255, 1]);
             CUBE.draw(gl, program, mode);
             paint([0.62, 0.62, 0.62, 1]);
-            CUBE.draw(gl, program, gl.LINES);  
-            popMatrix(); //pop lateral
+            CUBE.draw(gl, program, gl.LINES);
+            popMatrix(); // pop lateral
         }
 
-        for(let y = 1; y <= 8; y ++) { // 8 steps of each ladder
-            pushMatrix(); //step
-            multTranslation([0,1,0])
-            multScale(4,4,4);
+        for (let y = 0; y < 8; y ++) { // 8 steps on each ladder
+            pushMatrix(); // step
+
+            x == 0 ? multTranslation([-1.40 - 1.1 * y, 0, 0]) : multTranslation([-0.5 - 1.1 * y - ladder_ext_pos, 0.3, 0]);
+            multScale([0.5, 0.2, 2]);
             updateModelView(gl, program, modelView());
-            paint([204/255, 204/255, 204/255, 1]);
-
-            CUBE.draw(gl, program, modelView());
-
-            popMatrix();//pop step
+            paint([225/255, 225/255, 225/255, 1]);
+            CUBE.draw(gl, program, mode);
+            paint([0.62, 0.62, 0.62, 1]);
+            CUBE.draw(gl, program, gl.LINES);
+            popMatrix(); // pop step
         }
-
+        
     }
 
-    popMatrix(); //pop ladder
+    popMatrix(); // pop ladder
     
     popMatrix(); // pop ladder set
 
-    popMatrix(); // pop ladder rotator
+    popMatrix(); // pop rotator
 
     popMatrix(); // pop cargo set
-
 }
 
 function drawFireTruck() {
     // BASE 
-    pushMatrix();
+
+    pushMatrix(); // truck
     multTranslation([car_pos, 1.5, 0]);
     
     pushMatrix(); // truck floor
@@ -464,10 +465,10 @@ function drawFireTruck() {
     // CABIN
     drawCabin();
 
-    // Cargo
+    // CARGO
     drawCargo();
 
-    popMatrix(); //close base
+    popMatrix(); // pop truck
     
 }
 
