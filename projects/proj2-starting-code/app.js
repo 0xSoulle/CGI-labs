@@ -346,6 +346,7 @@ function drawCabin() {
             paint([0, 200/255, 1, 1]);
             CUBE.draw(gl, program, gl.LINES);
             popMatrix(); // pop side glass
+        
         }
     }
     
@@ -358,7 +359,6 @@ function drawCabin() {
     paint([1, 1, 1, 1]);
     CUBE.draw(gl, program, gl.LINES);
     popMatrix(); // pop connector
-
 
     popMatrix(); // pop cabin
 }
@@ -401,11 +401,11 @@ function drawCargo() {
     CUBE.draw(gl, program, gl.LINES);
     popMatrix(); // pop ladder base
 
+    pushMatrix(); // ladder
+    multRotationZ(ladder_vert_angle); // raise ladder
+
     for (let x = 0; x <= 1; x ++) { // 2 ladders
         for(let i = -1; i <= 1; i +=2) { // both sides of each ladder
-            pushMatrix(); 
-            multRotationZ(ladder_vert_angle); // raise ladder
-
             pushMatrix(); // lateral
             x == 0 ? multTranslation([-4 - x/2, x/3, i*0.9]) : multTranslation([-4 - x/2 - ladder_ext_pos, x/3, i*0.9])
             multScale([9, 0.3, 0.3]);
@@ -415,29 +415,31 @@ function drawCargo() {
             paint([0.62, 0.62, 0.62, 1]);
             CUBE.draw(gl, program, gl.LINES);  
             popMatrix(); //pop lateral
-
-            popMatrix();
         }
 
         for(let y = 1; y <= 8; y ++) { // 8 steps of each ladder
             pushMatrix(); //step
-            multTranslation([-3,1,0])
+            multTranslation([0,1,0])
             multScale(4,4,4);
+            updateModelView(gl, program, modelView());
+            paint([204/255, 204/255, 204/255, 1]);
+
             CUBE.draw(gl, program, modelView());
 
             popMatrix();//pop step
         }
 
-        
-        }
-        
     }
+
+    popMatrix(); //pop ladder
+    
     popMatrix(); // pop ladder set
 
     popMatrix(); // pop ladder rotator
 
     popMatrix(); // pop cargo set
 
+}
 
 function drawFireTruck() {
     // BASE 
