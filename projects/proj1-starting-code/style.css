@@ -8,8 +8,37 @@ body {
     /*  Disable scrollbars */
     display: block;
     /* No floating content on sides */
+    font-family: "Optima", monospace;
+    background-color: black;
 }
 
-.container {
-    position: relative;
+.selector {
+    font-size: 13px;
+    display: block;
+    color:aliceblue;
+    margin-left: 7px;
+    .author {
+        font-size: 11px;
+        text-align: center;
+  
+    }
+}
+
+
+
+.instructions {
+    font-size: 7px;   
+    position: absolute; 
+    bottom: 17px;
+    left: 17px;         
+    z-index: 11;      
+    color: aliceblue;       
+    pointer-events: none; 
+    text-align: left;
+    display: block;
+    width: 19%;
+
+    .description {
+        font-size: 11px;
+    }
 }

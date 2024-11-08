@@ -1,16 +1,36 @@
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+    <html>
 
-<head>
-    <title>Projeto 01</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <head>
+        <title>Projeto 01</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<body>
-    <script type="module" src="./app.js"></script>
-    <div class="container">
-        <canvas id="gl-canvas" width="512" height="512"></canvas>
-    </div>
-</body>
+    <body>
+        <script type="module" src="./app.js"></script>
+        <div class = "selector">
+            <label> Curve Type: </label>
+            <select name="selector" id="curve_selector" onchange="set_curve()">
+                <option value="0" selected>B-Spline </option>
+                <option value="1">Catmull-Rom </option>
+                <option value="2">Bezier</option>
+            </select>
+            <div class="author">
+                CREATED BY: Afonso de Sousa (65548) @ UNL-FCT 2024
+            </div>
+        </div>
 
-</html>
+        <div class="container"> 
+            <canvas id="gl-canvas" width="512" height="512"></canvas>
+        </div>
+        
+        <div class="instructions">
+            <h1>Instructions</h1>
+            <div class = "description">
+                <p id="inst1"> - Click on canvas to add control points and press 'Z' to draw the curve</p>
+                <p id="inst2"> - Drag with MOUSE1 across to collect multiple points</p>
+            </div>
+
+    </body>
+
+    </html>
