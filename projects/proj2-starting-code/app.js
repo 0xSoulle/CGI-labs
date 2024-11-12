@@ -28,7 +28,7 @@ const TRUCK_WIDTH = 5;
 let LADDER_LENGTH = 9;
 
 //action var
-const ACTION_SPEED = 1;
+const ACTION_SPEED = 0.01;
 let ladder_vert_angle = 5;
 let ladder_hor_angle = 0;
 let car_pos = 0;
@@ -219,7 +219,6 @@ function drawFloor() {
 function drawWheels() {
     const WHEEL_RADIUS = TRUCK_LENGTH/12; //default = 1
     const WHEEL_WIDTH = TRUCK_WIDTH/4;    //default = 1
-
     // TODO: add rotation
     for (let i = -1; i <= 1; i += 2) { // left and right wheels
         for (let j = -1; j <= 1; j += 2) { // front and back wheels
@@ -230,6 +229,7 @@ function drawWheels() {
             pushMatrix(); // tire 
             multScale([WHEEL_RADIUS, WHEEL_RADIUS, WHEEL_WIDTH]);
             multRotationX(90);
+            multRotationY(car_pos);
             updateModelView(gl, program, modelView());
             paint([0, 0, 0, 1]);
             TORUS.draw(gl, program, mode);
@@ -310,6 +310,9 @@ function drawWheels() {
             popMatrix(); // pop rubber
         }
     }
+
+    
+
 }
 
 function drawBumper() {
