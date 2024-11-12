@@ -5,11 +5,13 @@ export {
     radians, vec2, vec3, vec4, mat2, mat3, mat4, 
     equal, add, subtract, mult, 
     translate, rotate, rotateX, rotateY, rotateZ, 
-         scalem, scale, 
-         lookAt, ortho, perspective, 
-         transpose, dot, negate, cross, length, 
-         normalize, mix, flatten, sizeof, 
-         printm, det, inverse, normalMatrix }
+    scalem, scale, 
+    lookAt, ortho, perspective, 
+    transpose, dot, negate, cross, length, 
+    normalize, mix, flatten, sizeof, 
+    printm, det, inverse, normalMatrix 
+}
+
 //////////////////////////////////////////////////////////////////////////////
 //
 //  Angel.js

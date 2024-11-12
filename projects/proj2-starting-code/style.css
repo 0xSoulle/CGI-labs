@@ -12,6 +12,7 @@ body {
 
 .container {
     position: relative;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 #overlay {
@@ -30,14 +31,14 @@ body {
 
 #help_panel {
     position: fixed;
-    /*display: none;*/
-    /*width: 200px;
-    height: 200px;*/
+    display: block;
+    width: 200px;
+    height: 200px;
     bottom: 0;
     left: 0;
-    /*right: 0;
-    bottom: 0;*/
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    /*z-index: 2;*/
+    z-index: 2;
 }
