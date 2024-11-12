@@ -23,12 +23,12 @@ let aspect = 1.0;
 
 // dimentions const
 const TRUCK_LENGTH = 12;
-const TRUCK_HEIGHT = 1.5;
-const TRUCK_WIDTH = 5;
-let LADDER_LENGTH = 9;
+const TRUCK_HEIGHT = TRUCK_LENGTH/8;
+const TRUCK_WIDTH = TRUCK_LENGTH * 5/12;
+let LADDER_LENGTH;
 
 //action var
-const ACTION_SPEED = 0.01;
+const ACTION_SPEED = 0.5;
 let ladder_vert_angle = 5;
 let ladder_hor_angle = 0;
 let car_pos = 0;
@@ -224,7 +224,7 @@ function drawWheels() {
         for (let j = -1; j <= 1; j += 2) { // front and back wheels
     
             pushMatrix(); // rubber part
-            multTranslation([(TRUCK_LENGTH)/3 * j, -TRUCK_HEIGHT/3, ((TRUCK_WIDTH+WHEEL_WIDTH/2)/2)* i ]);
+            multTranslation([(TRUCK_LENGTH/3) * j, -TRUCK_HEIGHT/3, ((TRUCK_WIDTH+WHEEL_WIDTH/2)/2)* i ]);
             
             pushMatrix(); // tire 
             multScale([WHEEL_RADIUS, WHEEL_RADIUS, WHEEL_WIDTH]);
@@ -237,7 +237,7 @@ function drawWheels() {
             TORUS.draw(gl, program, gl.LINES);
             popMatrix(); // pop tire
 
-            pushMatrix(); //rim and driveshaft part
+            pushMatrix(); // differential 
             multRotationX(90); // rotate the cilinders horizontally
             multTranslation([0, -i*(WHEEL_RADIUS/4), 0]);
 
@@ -253,7 +253,7 @@ function drawWheels() {
             if(i == -1) { // only one cylinder needed/wheel pair
                 pushMatrix(); // axles shafts
                 multTranslation([0, TRUCK_WIDTH/2, 0]);
-                multScale([WHEEL_RADIUS * 0.2, WHEEL_WIDTH * 3.6, WHEEL_RADIUS * 0.2]);
+                multScale([WHEEL_RADIUS * 0.2, WHEEL_WIDTH * 3.8, WHEEL_RADIUS * 0.2]);
                 updateModelView(gl, program, modelView());
                 paint([0.5, 0.5, 0.5, 1]);
                 CYLINDER.draw(gl, program, mode);
@@ -268,7 +268,7 @@ function drawWheels() {
                 if(j == -1) {
                     CUBE.draw(gl, program, mode); //engine
                     paint([0.32, 0.32, 0.32, 1]);
-                    //CUBE.draw(gl, program, gl.LINES);
+                    CUBE.draw(gl, program, gl.LINES);
                     popMatrix(); // pop engine
                 }
                 else {
@@ -295,7 +295,7 @@ function drawWheels() {
                 
             }
 
-            popMatrix(); // pop differential part
+            popMatrix(); // pop differential
 
             pushMatrix(); // cover
             multTranslation([0, WHEEL_RADIUS * 1.15, 0]);
@@ -322,6 +322,7 @@ function drawBumper() {
     for (let i = -1; i <= 1; i += 2) { // front and rear mirror
         pushMatrix(); 
         multTranslation([0, 0, i*(TRUCK_WIDTH/2 + BUMPER_WIDTH/2)]);
+
         pushMatrix(); //mid bumper
         const MID_BUMPER_LENGTH = TRUCK_LENGTH - TRUCK_LENGTH/3 - WHEEL_COVER;
         multScale([MID_BUMPER_LENGTH, TRUCK_HEIGHT, BUMPER_WIDTH]);
@@ -401,6 +402,7 @@ function drawCabin() {
 
     pushMatrix(); // cabin
     multTranslation([-TRUCK_LENGTH/3, CABIN_HEIGHT/2 + TRUCK_HEIGHT/2, 0]);
+
     pushMatrix(); // seats
     multScale([CABIN_LENGTH, CABIN_HEIGHT, CABIN_WIDTH]);
     updateModelView(gl, program, modelView());
@@ -511,12 +513,11 @@ function drawCargo() {
         }
 
         const num_steps = 10;
-        const offset = TRUCK_HEIGHT/1.5;
+        const offset = TRUCK_HEIGHT/1.5 + TRUCK_LENGTH/24;
         let step_dist = (LADDER_LENGTH - offset)/num_steps;
-
-        for (let y = 0; y < num_steps; y ++) {
+        for (let step = 0; y < num_steps; y ++) {
             pushMatrix(); // step
-            x == 0 ? multTranslation([-offset - step_dist * y, 0, 0]) : multTranslation([-offset - step_dist * y - ladder_ext_pos, TRUCK_HEIGHT*0.2, 0]);
+            x == 0 ? multTranslation([-offset - step_dist * step, 0, 0]) : multTranslation([-offset/2 - step_dist * step - ladder_ext_pos, TRUCK_HEIGHT*0.2, 0]);
             multScale([TRUCK_LENGTH/24, TRUCK_HEIGHT/7.5, TRUCK_WIDTH/2.5]);
             updateModelView(gl, program, modelView());
             paint([225/255, 225/255, 225/255, 1]);
