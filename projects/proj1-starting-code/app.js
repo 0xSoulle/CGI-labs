@@ -44,7 +44,7 @@ yspeedController.onChange(set_speed);
 colorController.onChange(set_color);
 
 function create_curve() {
-    if (req_color == 0) {
+    if (req_color === 0) {
         req_color = vec4(Math.random() + 0.061,Math.random() + 0.061,Math.random() + 0.061,Math.random() + 0.211);
     }
 

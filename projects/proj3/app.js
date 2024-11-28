@@ -3,23 +3,78 @@ import { length, flatten, inverse, mult, normalMatrix, perspective, lookAt, vec4
 
 import * as dat from '../../libs/dat.gui.module.js';
 
-import * as CUBE from '../../libs/objects/cube.js';
-import * as SPHERE from '../../libs/objects/sphere.js';
+import * as COW from '../../libs/objects/cow.js';
+import * as BUNNY from '../../libs/objects/bunny.js';
 
 import * as STACK from '../../libs/stack.js';
 
 function setup(shaders) {
+    const objectGUI = new dat.GUI();
+    // Style container for object GUI panel
+    objectGUI.domElement.style.position = 'absolute';
+    objectGUI.domElement.style.left = '0px';
+    objectGUI.domElement.style.top = '0px';
+
+    const object = {
+        animal : "Cow",
+        type : COW
+    }
+
+    const selectorGUI = objectGUI.add(object, "animal", ["Cow", "Bunny"]).name('Draw Object').onChange(function (value) {
+        switch(value) {
+            case "Cow": object.type = COW; break;
+            case "Bunny": object.type = BUNNY; break;
+        }
+    });
+
+    const transformGUI = objectGUI.addFolder("transform");
+
+    const position = {
+        x : 0,
+        y : 0,
+        z :0
+    }
+    const positionGUI  = transformGUI.addFolder("position");
+    positionGUI.add(position, "x").onChange(function(value) {position.x = value});
+    positionGUI.add(position, "y").onChange(function(value) {position.y = value});
+    positionGUI.add(position, "z").onChange(function(value) {position.z = value});
+
+    const rotation = {
+        x : 0,
+        y : 0,
+        z : 0
+    }
+    const rotationGUI  = transformGUI.addFolder("rotation");
+    rotationGUI.add(rotation, "x").onChange(function(value) {rotation.x = value});
+    rotationGUI.add(rotation, "y").onChange(function(value) {rotation.y = value});
+    rotationGUI.add(rotation, "z").onChange(function(value) {rotation.z = value});
+
+    const scale_coord = {
+        x : 0,
+        y : 0,
+        z : 0
+    }
+    const scaleGUI  = transformGUI.addFolder("scale");
+    scaleGUI.add(scale_coord, "x").onChange(function(value) {scale_coord.x = value});
+    scaleGUI.add(scale_coord, "y").onChange(function(value) {scale_coord.y = value});
+    scaleGUI.add(scale_coord, "z").onChange(function(value) {scale_coord.z = value});
+
+    const material = {
+        shader: phong,
+        Ka: [0,0,0],
+        Kd: [0,0,0],
+        Ks: [0,0,0],
+        shininess : 100
+    }
+    const materialGUI = objectGUI.addFolder("material");
+
     const canvas = document.getElementById('gl-canvas');
     const gl = setupWebGL(canvas);
 
-    CUBE.init(gl);
-    SPHERE.init(gl);
+    COW.init(gl);
+    BUNNY.init(gl);
 
     const program = buildProgramFromSources(gl, shaders['shader.vert'], shaders['shader.frag']);
-
-    const objects = {
-        object: "Cow"
-    }
 
     // Camera  
     let camera = {
@@ -36,19 +91,6 @@ function setup(shaders) {
         wireframe: false,
         normals: true
     }
-
-    const objectGUI = new dat.GUI();
-    // Style container for object GUI panel
-    objectGUI.domElement.style.position = 'absolute';
-    objectGUI.domElement.style.left = '0px';
-    objectGUI.domElement.style.top = '0px';
-
-    const selectorGUI = objectGUI.add(objects, "object", ["Cow", "Bunny"]);
-    selectorGUI.name('Draw Object');
-
-    const transformGUI = objectGUI.addFolder("transform");
-
-    const materialGUI = objectGUI.addFolder("material");
 
     const viewerGUI = new dat.GUI();
     // Style container for camera GUI panel
@@ -179,12 +221,10 @@ function setup(shaders) {
         down = true;
         lastX = event.offsetX;
         lastY = event.offsetY;
-        gl.clearColor(0.2, 0.0, 0.0, 1.0);
     });
 
     canvas.addEventListener('mouseup', function (event) {
         down = false;
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
     });
 
     window.requestAnimationFrame(render);
@@ -216,9 +256,8 @@ function setup(shaders) {
         gl.uniformMatrix4fv(gl.getUniformLocation(program, "u_normals"), false, flatten(normalMatrix(STACK.modelView())));
 
         gl.uniform1i(gl.getUniformLocation(program, "u_use_normals"), options.normals);
+        object.type.draw(gl, program, gl.TRIANGLES);
 
-        SPHERE.draw(gl, program, options.wireframe ? gl.LINES : gl.TRIANGLES);
-        CUBE.draw(gl, program, gl.LINES);
     }
 }
 
