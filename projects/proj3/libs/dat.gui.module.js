@@ -1,4 +1,4 @@
- /**
+/**
  * dat-gui JavaScript Controller Library
  * https://github.com/dataarts/dat.gui
  *
@@ -478,7 +478,15 @@ function ___$insertStyle(css) {
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
   
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -504,7 +512,11 @@ function ___$insertStyle(css) {
     };
   }();
   
-
+  
+  
+  
+  
+  
   
   var get = function get(object, property, receiver) {
     if (object === null) object = Function.prototype;
@@ -547,7 +559,15 @@ function ___$insertStyle(css) {
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   };
   
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   var possibleConstructorReturn = function (self, call) {
     if (!self) {
